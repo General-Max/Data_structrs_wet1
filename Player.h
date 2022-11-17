@@ -1,5 +1,5 @@
-#ifndef EX1_team_H
-#define EX1_team_H
+#ifndef EX1_Player_H
+#define EX1_Player_H
 
 class Player{
 public:
