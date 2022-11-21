@@ -91,13 +91,6 @@ Node* AVLTree::insertNode(Node* current, Node *newNode) {
     return toReturn;
 }
 
-void Node::updateHeight() {
-    if (nodeHeight(this->getRight()) > nodeHeight(this->getLeft()))
-        height = nodeHeight(this->getRight())+1;
-    else
-        height = nodeHeight(this->getLeft())+1;
-}
-
 void print2D(Node *node, int space){
     if(node==NULL)
         return;

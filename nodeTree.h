@@ -29,10 +29,10 @@ public:
     void updateHeight();
 
 private:
-    int value;
-    Node *right;
-    Node *left;
-    int height;
+    int m_value;
+    Node *m_right;
+    Node *m_left;
+    int m_height;
 };
 
 int nodeHeight(Node* node);
