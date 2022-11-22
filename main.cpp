@@ -1,18 +1,25 @@
 #include <iostream>
-#include "AVLtree.h"
+#include "AVLTree.h"
 
 int main() {
-    AVLTree tree;
-    Node* newNode;
     int val;
+    AVLTree<int> tree;
     std::cout << "enter values" << std::endl;
-    for(int i=0; i<10; i++){
+    for(int i=0; i<7; i++){
         std::cin >> val;
-        newNode = new Node();
-        newNode->setValue(val);
-        tree.setRoot(tree.insertNode(tree.getRoot(), newNode));
-        print2D(tree.getRoot(), 0);
-        printH(tree.getRoot(), 0);
+        tree.insert(val);
+        tree.printD(tree.getRoot(), 0);
+        tree.printH(tree.getRoot(), 0);
+        std::cout << "---------------";
+    }
+
+
+    std::cout << "enter values to delete" << std::endl;
+    for(int i=0; i<7; i++){
+        std::cin >> val;
+        tree.remove(val);
+        tree.printD(tree.getRoot(), 0);
+        tree.printH(tree.getRoot(), 0);
         std::cout << "---------------";
     }
     return 0;
