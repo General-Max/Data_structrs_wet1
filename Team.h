@@ -8,13 +8,19 @@ class Team{
         Team(int teamId, int points);
         ~Team() = default;
 
-        int getTeamId();
-        int getPoints();
-        int getPlayedTogether();
-        Player* getTopScorer();
-        int getTotalPlayers();
-        int getTotalGoals();
-        int getTotalCards();
+        int getTeamId() const;
+        int getPoints() const;
+        int getPlayedTogether() const;
+        Player* getTopScorer() const;
+        int getTotalPlayers() const;
+        int getTotalGoals() const;
+        int getTotalCards() const;
+
+        void setPlayedTogether(int playedTogether);
+        void setTopScorer(Player* topScorer);
+        void setTotalPlayers(int totalPlayers);
+        void setTotalGoals(int totalGoals);
+        void setTotalCards(int totalCards);
     
     private:
         int m_teamId;
