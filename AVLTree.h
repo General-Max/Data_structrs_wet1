@@ -18,6 +18,8 @@ private:
         T *m_value;
     };
     Node *m_root;
+    Node *m_minValueNode; // in order to find the minimum value in tree in O(1)
+    Node *m_maxValueNode; // in order to find the maximum value in tree in O(1)
     int m_size;
 
     // Node Functions
@@ -49,13 +51,13 @@ private:
     Node *rightRightRotation(Node *node);
 
     // Constructor, Destructor helper functions
-    //Todo: check if needed
-    // Node* sortedInit_aux(T data_arr[], int start, int end, AVLTree<T>::Node* father);
     Node* copyNode(Node* node);
     void empty_aux(Node* node);
-    Node* getMin(AVLTree<T>::Node* node) const;
+    Node* findMin(AVLTree<T>::Node* node) const;
+    Node* findMax(AVLTree<T>::Node* node) const;
+    T* getMinValueInTree() const;
+    T* getmaxValueInTree() const;
 
-    // Aux functions
 
 public:
     // Constructors, Destructor, Assignment
@@ -65,7 +67,6 @@ public:
 
     AVLTree &operator=(const AVLTree<T> &tree);
 
-    //Todo:  void sortedArrayInit(T data_arr[], int n);
     ~AVLTree();
 
     // Interface Functions
@@ -81,7 +82,7 @@ public:
 
     Node* getRoot() const;
 
-    void empty();
+    void emptyTree();
 
     bool isEmpty() const;
 
@@ -92,27 +93,35 @@ public:
 };
 
 template<class T>
-AVLTree<T>::AVLTree() : m_root(NULL), m_size(0) {
+AVLTree<T>::AVLTree() : m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL), m_size(0) {
 }
 
 template<class T>
 AVLTree<T>::~AVLTree(){
-    empty();
+    emptyTree();
 }
 
 template<class T>
 AVLTree<T>& AVLTree<T>::operator=(const AVLTree<T> &tree){
     // TODO: ADD CHECK IF SUCCEED BEFORE EMPTY
-    empty();
+    if(&tree == this){
+        return *this;
+    }
+    emptyTree();
     m_root = copyNode(tree.getRoot());
+    m_minValueNode = findMin(m_root);
+    m_maxValueNode = findMax(m_root);
     m_size = tree.getSize();
     return *this;
 }
 
 template<class T>
-AVLTree<T>::AVLTree(const AVLTree<T>& tree):m_root(NULL), m_size(tree.getSize()){
+AVLTree<T>::AVLTree(const AVLTree<T>& tree):m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL),
+            m_size(tree.getSize()){
     // todo: check if can be added to the comprehension list
     m_root = copyNode(tree.getRoot());
+    m_minValueNode = findMin(m_root);
+    m_maxValueNode = findMax(m_root);
 }
 
 
@@ -128,6 +137,9 @@ void AVLTree<T>::insert(const T& value) {
     Node *node = initNode(value);
 
     m_root = insertNode(node, m_root, NULL);
+    // update minimum and maximum tree nodes
+    m_minValueNode = findMin(m_root);
+    m_maxValueNode = findMax(m_root);
     m_size++;
 }
 
@@ -151,6 +163,9 @@ void AVLTree<T>::remove(const T& value) {
     }
 
     m_root = removeNode(node_to_remove, m_root);
+    // update minimum and maximum tree nodes
+    m_minValueNode = findMin(m_root);
+    m_maxValueNode = findMax(m_root);
     m_size--;
 }
 template<class T>
@@ -170,10 +185,12 @@ void AVLTree<T>::empty_aux(AVLTree<T>::Node* node) {
 }
 
 template<class T>
-void AVLTree<T>::empty() {
+void AVLTree<T>::emptyTree() {
     if(m_size > 0){
         empty_aux(m_root);
         m_root = NULL;
+        m_minValueNode = NULL;
+        m_maxValueNode = NULL;
         m_size = 0;
     }
 }
@@ -333,7 +350,7 @@ typename AVLTree<T>::Node *AVLTree<T>::removeNode(AVLTree<T>::Node *currentNode,
             nodeToDelete->m_right = removeNode(nodeToDelete, nodeToDelete->m_right);
         } else {
             // right and left son exist
-            Node *temp = getMin(nodeToDelete->m_right);
+            Node *temp = findMin(nodeToDelete->m_right);
             delete nodeToDelete->m_value;
             nodeToDelete->m_value = new T(*temp->m_value);
             nodeToDelete->m_right = removeNode(nodeToDelete, nodeToDelete->m_right);
@@ -433,7 +450,7 @@ typename AVLTree<T>::Node *AVLTree<T>::copyNode(AVLTree<T>::Node* *node) {
 }
 
 template<class T>
-typename AVLTree<T>::Node* AVLTree<T>::getMin(AVLTree<T>::Node* node) const{
+typename AVLTree<T>::Node* AVLTree<T>::findMin(AVLTree<T>::Node* node) const{
     if (node == NULL) {
         return NULL;
     }
@@ -441,6 +458,29 @@ typename AVLTree<T>::Node* AVLTree<T>::getMin(AVLTree<T>::Node* node) const{
         return node;
     }
 
-    return getMin(node->m_left);
+    return findMin(node->m_left);
 }
+
+template<class T>
+typename AVLTree<T>::Node* AVLTree<T>::findMax(AVLTree<T>::Node* node) const{
+    if (node == NULL) {
+        return NULL;
+    }
+    if (node->m_right == NULL) {
+        return node;
+    }
+
+    return findMax(node->m_right);
+}
+
+template<class T>
+T *AVLTree<T>::getMinValueInTree() const {
+    return m_minValueNode->m_value;
+}
+
+template<class T>
+T *AVLTree<T>::getmaxValueInTree() const {
+    return m_maxValueNode->m_value;
+}
+
 #endif //EX1_AVLTREE_H
