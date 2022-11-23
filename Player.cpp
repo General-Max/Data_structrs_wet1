@@ -4,27 +4,27 @@ Player::Player(int playerId, int teamId, int gamesPlayed, int goals, int cards, 
 m_teamId(teamId), m_gamesPlayed(gamesPlayed), m_goals(goals), m_cards(cards), m_goalKeeper(goalkeeper){}
 
 int Player::getPlayerId() const {
-    return m_playerId;
+    return this->m_playerId;
 }
 
 int Player::getTeamId() const {
-    return m_teamId;
+    return this->m_teamId;
 }
 
 int Player::getGamesPlayed() const {
-    return m_gamesPlayed;
+    return this->m_gamesPlayed;
 }
 
 int Player::getGoals() const {
-    return m_goals;
+    return this->m_goals;
 }
 
 bool Player::getGoalKeeper() const {
-    return m_goalKeeper;
+    return this->m_goalKeeper;
 }
 
 int Player::getCards() const {
-    return m_cards;
+    return this->m_cards;
 }
 
 ostream& operator<<(ostream& os, const Player& player)
@@ -35,19 +35,19 @@ ostream& operator<<(ostream& os, const Player& player)
 }
 
 void Player::updateGamesPlayed(int newGamedNumber) {
-    m_gamesPlayed += newGamedNumber;
+    this->m_gamesPlayed += newGamedNumber;
 }
 
 void Player::updateGoals(int newGoalsNumber) {
-    m_goals += newGoalsNumber;
+    this->m_goals += newGoalsNumber;
 }
 
 void Player::updateCards(int newCardsNumber) {
-    m_cards += newCardsNumber;
+    this->m_cards += newCardsNumber;
 }
 
 void Player::setGoalKeeper(bool isGoalKeeper) {
-    m_goalKeeper = isGoalKeeper;
+    this->m_goalKeeper = isGoalKeeper;
 }
 
 
