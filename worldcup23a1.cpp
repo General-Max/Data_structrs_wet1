@@ -89,7 +89,7 @@ output_t<int> world_cup_t::get_num_played_games(int playerId)
 output_t<int> world_cup_t::get_team_points(int teamId)
 {
 	// TODO: Your code goes here
-	if(playerId<=0){
+	if(teamId<=0){
 		return output_t<int>(StatusType::INVALID_INPUT);
 	}
 
@@ -118,7 +118,7 @@ output_t<int> world_cup_t::get_top_scorer(int teamId)
 			return output_t<int>(StatusType::FAILURE);
 		}
 
-		return output_t<int>(m_topScorer->getId());
+		return output_t<int>(m_topScorer->getPlayerId());
 	}
 	
 	//search for the team if couldnt find throw error
