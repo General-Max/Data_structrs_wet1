@@ -16,12 +16,25 @@
 #define WORLDCUP23A1_H_
 
 #include "wet1util.h"
+#include "Player.h"
+#include "Team.h"
+
 
 class world_cup_t {
 private:
 	//
 	// Here you may add anything you want
 	//
+	
+	// turn to uniqe PTRs
+	//to do
+	//AVLTree<TripleNode*> playersById;
+	//AVLTree<TripleNode*> playersByGoals(or as they like);
+	//need deque of players
+	//AVLTree<Brackets>// the "cosher" teams
+	int m_numPlayers;
+	Player* m_topScorer;
+
 	
 public:
 	// <DO-NOT-MODIFY> {
