@@ -12,7 +12,7 @@ class Team{
     private:
         int m_teamId;
         int m_points;
-        int m_playedToghether;
+        int m_playedTogether;
         Player* m_topScorer;
         int m_totalPlayers;
         int m_totalGoals;
