@@ -23,6 +23,15 @@ public:
 
     friend ostream& operator<<(ostream& os, const Player& player);
 
+    void updateGamesPlayed(int newGamedNumber);
+
+    void updateGoals(int newGoalsNumber);
+
+    void updateCards (int newCardsNumber);
+
+    //TODO: CHECK IF NEED
+    void setGoalKeeper(bool isGoalKeeper);
+
 private:
     int m_playerId;
     int m_teamId;

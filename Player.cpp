@@ -34,5 +34,21 @@ ostream& operator<<(ostream& os, const Player& player)
     return os;
 }
 
+void Player::updateGamesPlayed(int newGamedNumber) {
+    m_gamesPlayed += newGamedNumber;
+}
+
+void Player::updateGoals(int newGoalsNumber) {
+    m_goals += newGoalsNumber;
+}
+
+void Player::updateCards(int newCardsNumber) {
+    m_cards += newCardsNumber;
+}
+
+void Player::setGoalKeeper(bool isGoalKeeper) {
+    m_goalKeeper = isGoalKeeper;
+}
+
 
 

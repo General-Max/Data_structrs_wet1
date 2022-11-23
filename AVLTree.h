@@ -93,6 +93,7 @@ public:
     bool isEmpty() const;
 
     void printH(Node *node, int space);
+
     void printD(Node *node, int space);
 };
 

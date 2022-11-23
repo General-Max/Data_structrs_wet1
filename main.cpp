@@ -2,6 +2,7 @@
 #include "AVLTree.h"
 #include "sortingTreeMethods.h"
 #include "Player.h"
+#include <memory>
 
 //int main1(){
 //    int val;
@@ -18,7 +19,7 @@
 
 int main2(){
     AVLTree<Player*, SortByScore> tree;
-    Player *p1 = new Player(12, 1, 0, 0, 7, true);
+    auto p1 = std::make_shared<Player>(12, 1, 0, 0, 7, true);
     tree.insert(p1);
     tree.printD(tree.getRoot(), 0);
     tree.printH(tree.getRoot(), 0);
