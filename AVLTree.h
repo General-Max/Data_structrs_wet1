@@ -6,7 +6,7 @@
 #define EX1_AVLTREE_H
 #include <iostream>
 
-template<class T>
+template<class T, class Comparison>
 class AVLTree {
 private:
     // Tree fields
@@ -21,6 +21,7 @@ private:
     Node *m_minValueNode; // in order to find the minimum value in tree in O(1)
     Node *m_maxValueNode; // in order to find the maximum value in tree in O(1)
     int m_size;
+    Comparison comparisonFunction;
 
     // Node Functions
     Node *initNode(const T &value);
@@ -41,7 +42,7 @@ private:
 
     T *getNodeValue(Node *node) const;
 
-    // Roll Functions
+    // Rotation Functions
     Node *leftLeftRotation(Node *node);
 
     Node *leftRightRotation(Node *node);
@@ -52,20 +53,25 @@ private:
 
     // Constructor, Destructor helper functions
     Node* copyNode(Node* node);
+
     void empty_aux(Node* node);
-    Node* findMin(AVLTree<T>::Node* node) const;
-    Node* findMax(AVLTree<T>::Node* node) const;
+
+    Node* findMin(AVLTree<T, Comparison>::Node* node) const;
+
+    Node* findMax(AVLTree<T, Comparison>::Node* node) const;
+
     T* getMinValueInTree() const;
-    T* getmaxValueInTree() const;
+
+    T* getMaxValueInTree() const;
 
 
 public:
     // Constructors, Destructor, Assignment
     AVLTree();
 
-    AVLTree(const AVLTree<T> &tree);
+    AVLTree(const AVLTree<T, Comparison> &tree);
 
-    AVLTree &operator=(const AVLTree<T> &tree);
+    AVLTree &operator=(const AVLTree<T, Comparison> &tree);
 
     ~AVLTree();
 
@@ -88,21 +94,19 @@ public:
 
     void printH(Node *node, int space);
     void printD(Node *node, int space);
-
-    Node *copyNode(Node **node);
 };
 
-template<class T>
-AVLTree<T>::AVLTree() : m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL), m_size(0) {
+template<class T, class Comparison>
+AVLTree<T, Comparison>::AVLTree() : m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL), m_size(0) {
 }
 
-template<class T>
-AVLTree<T>::~AVLTree(){
+template<class T, class Comparison>
+AVLTree<T, Comparison>::~AVLTree(){
     emptyTree();
 }
 
-template<class T>
-AVLTree<T>& AVLTree<T>::operator=(const AVLTree<T> &tree){
+template<class T, class Comparison>
+AVLTree<T, Comparison>& AVLTree<T, Comparison>::operator=(const AVLTree<T, Comparison> &tree){
     // TODO: ADD CHECK IF SUCCEED BEFORE EMPTY
     if(&tree == this){
         return *this;
@@ -115,8 +119,8 @@ AVLTree<T>& AVLTree<T>::operator=(const AVLTree<T> &tree){
     return *this;
 }
 
-template<class T>
-AVLTree<T>::AVLTree(const AVLTree<T>& tree):m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL),
+template<class T, class Comparison>
+AVLTree<T, Comparison>::AVLTree(const AVLTree<T, Comparison>& tree):m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL),
             m_size(tree.getSize()){
     // todo: check if can be added to the comprehension list
     m_root = copyNode(tree.getRoot());
@@ -125,8 +129,8 @@ AVLTree<T>::AVLTree(const AVLTree<T>& tree):m_root(NULL), m_minValueNode(NULL), 
 }
 
 
-template<class T>
-void AVLTree<T>::insert(const T& value) {
+template<class T, class Comparison>
+void AVLTree<T, Comparison>::insert(const T& value) {
     if (&value == NULL) {
         return;
     }
@@ -143,16 +147,16 @@ void AVLTree<T>::insert(const T& value) {
     m_size++;
 }
 
-template<class T>
-T* AVLTree<T>::find(const T& value){
+template<class T, class Comparison>
+T* AVLTree<T, Comparison>::find(const T& value){
     Node* node = findNode(m_root, value);
     if(node == NULL)
         std::cout << "throw NodeDoesntExist()";
     return node->data;
 }
 
-template<class T>
-void AVLTree<T>::remove(const T& value) {
+template<class T, class Comparison>
+void AVLTree<T, Comparison>::remove(const T& value) {
     if (isEmpty() || &value == NULL) {
         return;
     }
@@ -168,8 +172,8 @@ void AVLTree<T>::remove(const T& value) {
     m_maxValueNode = findMax(m_root);
     m_size--;
 }
-template<class T>
-void AVLTree<T>::empty_aux(AVLTree<T>::Node* node) {
+template<class T, class Comparison>
+void AVLTree<T, Comparison>::empty_aux(AVLTree<T, Comparison>::Node* node) {
     if(node == NULL){
         return;
     }
@@ -184,8 +188,8 @@ void AVLTree<T>::empty_aux(AVLTree<T>::Node* node) {
     delete node;
 }
 
-template<class T>
-void AVLTree<T>::emptyTree() {
+template<class T, class Comparison>
+void AVLTree<T, Comparison>::emptyTree() {
     if(m_size > 0){
         empty_aux(m_root);
         m_root = NULL;
@@ -195,26 +199,26 @@ void AVLTree<T>::emptyTree() {
     }
 }
 
-template<class T>
-int AVLTree<T>::getHeight()const{
+template<class T, class Comparison>
+int AVLTree<T, Comparison>::getHeight()const{
     if (m_root == NULL) {
         return 0;
     }
     return m_root->m_height;
 }
 
-template<class T>
-int AVLTree<T>::getSize() const{
+template<class T, class Comparison>
+int AVLTree<T, Comparison>::getSize() const{
     return m_size;
 }
 
-template<class T>
-bool AVLTree<T>::isEmpty() const{
+template<class T, class Comparison>
+bool AVLTree<T, Comparison>::isEmpty() const{
     return m_size == 0;
 }
 
-template <class T>
-void AVLTree<T>::printD(Node *node, int space){
+template <class T, class Comparison>
+void AVLTree<T, Comparison>::printD(Node *node, int space){
     if(node==NULL)
         return;
     space += 10;
@@ -223,28 +227,28 @@ void AVLTree<T>::printD(Node *node, int space){
     for(int i= 10; i<space; i++){
         std::cout << " ";
     }
-    std::cout << *node->m_value << "\n";
+    std::cout << **node->m_value << "\n";
     printD(node->m_left, space);
 }
 
-template <class T>
-void AVLTree<T>::printH(Node *node, int space){
+template <class T, class Comparison>
+void AVLTree<T, Comparison>::printH(Node *node, int space){
     if(node==NULL)
         return;
     space += 10;
     printH(node->m_right, space);
     std::cout << std::endl;
-    std::cout << *node->m_value << ": "<< node->m_height << "\n";
+    std::cout << **node->m_value << ": "<< node->m_height << "\n";
     printH(node->m_left, space);
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::getRoot() const {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::getRoot() const {
     return m_root;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::initNode(const T &value) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::initNode(const T &value) {
     Node* node = new Node;
     node->m_value = new T(value);
     node->m_height = 0;
@@ -254,8 +258,8 @@ typename AVLTree<T>::Node *AVLTree<T>::initNode(const T &value) {
     return node;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::balanceTree(AVLTree<T>::Node *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::balanceTree(AVLTree<T, Comparison>::Node *node) {
     int balanceFactor = getBalanceFactor(node);
     int leftBalanceFactor = getBalanceFactor(node->m_left);
     int rightBalanceFactor = getBalanceFactor(node->m_right);
@@ -284,15 +288,15 @@ typename AVLTree<T>::Node *AVLTree<T>::balanceTree(AVLTree<T>::Node *node) {
     return node;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::insertNode(AVLTree<T>::Node  *newNode, AVLTree<T>::Node  *currentNode,
-                                                  AVLTree<T>::Node  *father){
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::insertNode(AVLTree<T, Comparison>::Node  *newNode,
+                                                                          AVLTree<T, Comparison>::Node  *currentNode,
+                                                                          AVLTree<T, Comparison>::Node  *father){
     if (currentNode == NULL) {
         newNode->m_father = father;
         return newNode;
     }
-
-    if (*newNode->m_value < *currentNode->m_value) {
+    if(comparisonFunction.lessThan(*newNode->m_value, *currentNode->m_value)){
         currentNode->m_left = insertNode(newNode, currentNode->m_left, currentNode);
     } else {
         currentNode->m_right = insertNode(newNode, currentNode->m_right, currentNode);
@@ -300,22 +304,22 @@ typename AVLTree<T>::Node *AVLTree<T>::insertNode(AVLTree<T>::Node  *newNode, AV
     return balanceTree(currentNode);
 }
 
-template<class T>
-int AVLTree<T>::findNewHeight(const AVLTree<T>::Node *node) const {
+template<class T, class Comparison>
+int AVLTree<T, Comparison>::findNewHeight(const AVLTree<T, Comparison>::Node *node) const {
     if(height(node->m_right) > height(node->m_left)){
         return height(node->m_right)+1;
     }
     return height(node->m_left)+1;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::findNode(AVLTree<T>::Node *node, const T &value) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::findNode(AVLTree<T, Comparison>::Node *node, const T &value) {
     if(node == NULL)
         return NULL;
-    if (value == *node->m_value) {
+    if (comparisonFunction.equalTo(value, *node->m_value)) {
         return node;
     } else {
-        if (value > *node->m_value) {
+        if(comparisonFunction.lessThan(*node->m_value, value)){
             return findNode(node->m_right, value);
         } else {
             return findNode(node->m_left, value);
@@ -323,8 +327,9 @@ typename AVLTree<T>::Node *AVLTree<T>::findNode(AVLTree<T>::Node *node, const T 
     }
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::removeNode(AVLTree<T>::Node *currentNode, AVLTree<T>::Node *nodeToDelete){
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::removeNode(AVLTree<T, Comparison>::Node *currentNode,
+                                                                          AVLTree<T, Comparison>::Node *nodeToDelete){
     if (currentNode == NULL) {
         return NULL;
     }
@@ -355,7 +360,7 @@ typename AVLTree<T>::Node *AVLTree<T>::removeNode(AVLTree<T>::Node *currentNode,
             nodeToDelete->m_value = new T(*temp->m_value);
             nodeToDelete->m_right = removeNode(nodeToDelete, nodeToDelete->m_right);
         }
-    } else if (*currentNode->m_value < *nodeToDelete->m_value) {
+    } else if (comparisonFunction.lessThan(*currentNode->m_value, *nodeToDelete->m_value)) {
         nodeToDelete->m_left = removeNode(currentNode, nodeToDelete->m_left);
     } else {
         nodeToDelete->m_right = removeNode(currentNode, nodeToDelete->m_right);
@@ -367,23 +372,23 @@ typename AVLTree<T>::Node *AVLTree<T>::removeNode(AVLTree<T>::Node *currentNode,
     return balanceTree(nodeToDelete);
 }
 
-template<class T>
-int AVLTree<T>::getBalanceFactor(AVLTree<T>::Node *node) const {
+template<class T, class Comparison>
+int AVLTree<T, Comparison>::getBalanceFactor(AVLTree<T, Comparison>::Node *node) const {
     return node == NULL ? -1 : (height(node->m_left) - height(node->m_right));
 }
 
-template<class T>
-int AVLTree<T>::height(const AVLTree<T>::Node* node) const{
+template<class T, class Comparison>
+int AVLTree<T, Comparison>::height(const AVLTree<T, Comparison>::Node* node) const{
     return node == NULL ? -1 : node->m_height;
 }
 
-template<class T>
-T *AVLTree<T>::getNodeValue(AVLTree<T>::Node *node) const {
+template<class T, class Comparison>
+T *AVLTree<T, Comparison>::getNodeValue(AVLTree<T, Comparison>::Node *node) const {
     return node->m_value;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::leftLeftRotation(AVLTree<T>::Node *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::leftLeftRotation(AVLTree<T, Comparison>::Node *node) {
     Node *leftSubtree = node->m_left;
     leftSubtree->m_father = node->m_father;
     node->m_father = leftSubtree;
@@ -399,8 +404,8 @@ typename AVLTree<T>::Node *AVLTree<T>::leftLeftRotation(AVLTree<T>::Node *node) 
     return node->m_father;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::rightRightRotation(Node *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::rightRightRotation(Node *node) {
     Node *subTreeRight = node->m_right;
     node->m_right->m_father = node->m_father;
     node->m_father = subTreeRight;
@@ -417,20 +422,20 @@ typename AVLTree<T>::Node *AVLTree<T>::rightRightRotation(Node *node) {
     return node->m_father;
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::rightLeftRotation(AVLTree<T>::Node *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::rightLeftRotation(AVLTree<T, Comparison>::Node *node) {
     node->m_right = leftLeftRotation(node->m_right);
     return rightRightRotation(node);
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::leftRightRotation(AVLTree<T>::Node *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::leftRightRotation(AVLTree<T, Comparison>::Node *node) {
     node->m_left = rightRightRotation(node->m_left);
     return leftLeftRotation(node);
 }
 
-template<class T>
-typename AVLTree<T>::Node *AVLTree<T>::copyNode(AVLTree<T>::Node* *node) {
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node *AVLTree<T, Comparison>::copyNode(AVLTree<T, Comparison>::Node* node) {
     if(node == NULL){
         return NULL;
     }
@@ -449,8 +454,8 @@ typename AVLTree<T>::Node *AVLTree<T>::copyNode(AVLTree<T>::Node* *node) {
     return new_node;
 }
 
-template<class T>
-typename AVLTree<T>::Node* AVLTree<T>::findMin(AVLTree<T>::Node* node) const{
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node* AVLTree<T, Comparison>::findMin(AVLTree<T, Comparison>::Node* node) const{
     if (node == NULL) {
         return NULL;
     }
@@ -461,8 +466,8 @@ typename AVLTree<T>::Node* AVLTree<T>::findMin(AVLTree<T>::Node* node) const{
     return findMin(node->m_left);
 }
 
-template<class T>
-typename AVLTree<T>::Node* AVLTree<T>::findMax(AVLTree<T>::Node* node) const{
+template<class T, class Comparison>
+typename AVLTree<T, Comparison>::Node* AVLTree<T, Comparison>::findMax(AVLTree<T, Comparison>::Node* node) const{
     if (node == NULL) {
         return NULL;
     }
@@ -473,13 +478,13 @@ typename AVLTree<T>::Node* AVLTree<T>::findMax(AVLTree<T>::Node* node) const{
     return findMax(node->m_right);
 }
 
-template<class T>
-T *AVLTree<T>::getMinValueInTree() const {
+template<class T, class Comparison>
+T *AVLTree<T, Comparison>::getMinValueInTree() const {
     return m_minValueNode->m_value;
 }
 
-template<class T>
-T *AVLTree<T>::getmaxValueInTree() const {
+template<class T, class Comparison>
+T *AVLTree<T, Comparison>::getMaxValueInTree() const {
     return m_maxValueNode->m_value;
 }
 
