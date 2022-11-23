@@ -22,7 +22,7 @@ int Team::getPlayedTogether()
 }
 Player* Team::getTopScorer()
 {
-    this->m_topScorer;
+    return this->m_topScorer;
 }
 int Team::getTotalPlayers()
 {
