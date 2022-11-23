@@ -1,4 +1,3 @@
-
 #ifndef EX1_Team_H
 #define EX1_Team_H
 
@@ -8,6 +7,14 @@ class Team{
     public:
         Team(int teamId, int points);
         ~Team() = default;
+
+        int getTeamId();
+        int getPoints();
+        int getPlayedTogether();
+        Player* getTopScorer();
+        int getTotalPlayers();
+        int getTotalGoals();
+        int getTotalCards();
     
     private:
         int m_teamId;
