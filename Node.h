@@ -5,29 +5,25 @@
 template<class T>
 class Node {
 private:
-    T data;
-    Node* next;
+    T *data;
 public:  
     // Default constructor
     Node();
     // Parameterised Constructor
-    Node(T data);
+    explicit Node(T *data);
 };
 
 template<class T>
 Node<T>::Node()
 {
-    T = nullptr;
-    next = NULL;
+    data = nullptr;
 }
   
     // Parameterised Constructor
 template<class T>
-Node<T>::Node(T data)
+Node<T>::Node(T* data)
 {
     this->data = data;
-    this->next = NULL;
 }
-
 
 #endif //EX1_NODE_H

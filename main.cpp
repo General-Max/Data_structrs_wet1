@@ -3,6 +3,7 @@
 #include "sortingTreeMethods.h"
 #include "Player.h"
 #include <memory>
+#include "Node.h"
 
 //int main1(){
 //    int val;
@@ -17,9 +18,16 @@
 //    return 0;
 //}
 
+int main3(){
+    Node<int> n1 = Node<int>();
+    Node<int> n2 = Node<int>(&3);
+    return 0;
+}
+
 int main2(){
     AVLTree<Player*, SortByScore> tree;
-    auto p1 = std::make_shared<Player>(12, 1, 0, 0, 7, true);
+   // auto p1 = std::make_shared<Player>(12, 1, 0, 0, 7, true);
+    auto p1 = new Player(12, 1, 0, 0, 7, true);
     tree.insert(p1);
     tree.printD(tree.getRoot(), 0);
     tree.printH(tree.getRoot(), 0);
