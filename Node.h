@@ -5,12 +5,15 @@
 template<class T>
 class Node {
 private:
-    T *data;
+    T *m_data;
 public:  
     // Default constructor
     Node();
     // Parameterised Constructor
-    explicit Node(const T& data);
+    explicit Node(T *data);
+
+    T* getData(); 
+
 };
 
 template<class T>
@@ -21,9 +24,13 @@ Node<T>::Node()
   
     // Parameterised Constructor
 template<class T>
-Node<T>::Node(const T& data)
+Node<T>::Node(T* data): m_data(data)
+{};
+
+template<class T>
+T* Node<T>::getData()
 {
-    this->data = data;
+    return this->m_data;
 }
 
 #endif //EX1_NODE_H
