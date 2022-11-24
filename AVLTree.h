@@ -353,6 +353,7 @@ BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<
             nodeToDelete->setData(new T(*temp->getData()));
             nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->getRight()));
         }
+
     } else if (comparisonFunction.lessThan(*currentNode->getData(), *nodeToDelete->getData())) {
         nodeToDelete->setLeft(removeNode(currentNode, nodeToDelete->getLeft()));
     } else {
@@ -377,11 +378,11 @@ int AVLTree<T, Comparison>::height(const BinNode<T>* node) const{
 
 template<class T, class Comparison>
 BinNode<T> *AVLTree<T, Comparison>::leftLeftRotation(BinNode<T> *node) {
-    BinNode<T> *leftSubtree = node->getleft();
+    BinNode<T> *leftSubtree = node->getLeft();
     leftSubtree->setFather(node->getFather());
     node->setFather(leftSubtree);
     if(leftSubtree->getRight()){
-        (leftSubtree->getRight)->setFather(node);
+        (leftSubtree->getRight())->setFather(node);
     }
     node->setLeft(node->getFather()->getRight());
     (node->getFather())->setRight(node);
