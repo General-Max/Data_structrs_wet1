@@ -221,13 +221,13 @@ void AVLTree<T, Comparison>::printD(BinNode<T> *node, int space){
     if(node==NULL)
         return;
     space += 10;
-    printD(node->m_right, space);
+    printD(node->getRight(), space);
     std::cout << std::endl;
     for(int i= 10; i<space; i++){
         std::cout << " ";
     }
     std::cout << **node->getData() << "\n";
-    printD(node->m_left, space);
+    printD(node->getLeft(), space);
 }
 
 template <class T, class Comparison>
@@ -235,10 +235,10 @@ void AVLTree<T, Comparison>::printH(BinNode<T> *node, int space){
     if(node==NULL)
         return;
     space += 10;
-    printH(node->m_right, space);
+    printH(node->getRight(), space);
     std::cout << std::endl;
-    std::cout << **node->getData() << ": "<< node->m_height << "\n";
-    printH(node->m_left, space);
+    std::cout << **node->getData() << ": "<< node->getHeight() << "\n";
+    printH(node->getLeft(), space);
 }
 
 template<class T, class Comparison>
@@ -283,7 +283,7 @@ BinNode<T> *AVLTree<T, Comparison>::balanceTree(BinNode<T> *node) {
         return rightLeftRotation(node);
     }
 
-    node->m_height = findNewHeight(node);
+    node->setHeight(findNewHeight(node));
     return node;
 }
 
@@ -295,9 +295,9 @@ BinNode<T> *AVLTree<T, Comparison>::insertNode(BinNode<T>  *newNode, BinNode<T> 
         return newNode;
     }
     if(comparisonFunction.lessThan(*newNode->getData(), *currentNode->getData())){
-        currentNode->setLeft(insertNode(newNode, currentNode->m_left, currentNode));
+        currentNode->setLeft(insertNode(newNode, currentNode->getLeft(), currentNode));
     } else {
-        currentNode->setRight(insertNode(newNode, currentNode->m_right, currentNode));
+        currentNode->setRight(insertNode(newNode, currentNode->getRight(), currentNode));
     }
     return balanceTree(currentNode);
 }
@@ -372,7 +372,7 @@ int AVLTree<T, Comparison>::getBalanceFactor(BinNode<T> *node) const {
 
 template<class T, class Comparison>
 int AVLTree<T, Comparison>::height(const BinNode<T>* node) const{
-    return node == NULL ? -1 : node->m_height;
+    return node == NULL ? -1 : node->getHeight();
 }
 
 template<class T, class Comparison>
@@ -447,7 +447,7 @@ BinNode<T>* AVLTree<T, Comparison>::findMin(BinNode<T>* node) const{
     if (node == NULL) {
         return NULL;
     }
-    if (node->getLeft() == NULL) {
+    if (!node->getLeft()) {
         return node;
     }
 

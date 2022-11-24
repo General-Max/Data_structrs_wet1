@@ -27,7 +27,7 @@ Node<T>::Node()
   
     // Parameterised Constructor
 template<class T>
-Node<T>::Node(const T& data): m_data(data) {};
+Node<T>::Node(const T& data): m_data(new T(data)) {};
 
 template <class T>
 Node<T>::~Node()

@@ -8,22 +8,22 @@ template<class T>
 class BinNode : public Node<T>
 {
 private:
-    Node<T> *m_right;
-    Node<T> *m_left;
-    Node<T> *m_father;
+    BinNode<T> *m_right;
+    BinNode<T> *m_left;
+    BinNode<T> *m_father;
     int m_height;
 
 public:
     BinNode(const T& value);
     ~BinNode();
-    BinNode<T> getLeft();
-    BinNode<T> getRight();
-    BinNode<T> getFather();
-    int getHeight();
+    BinNode<T>* getLeft() const;
+    BinNode<T>* getRight() const;
+    BinNode<T>* getFather() const;
+    int getHeight() const;
 
-    void setLeft(const T& newLeft);
-    void setRight(const T& newRight);
-    void setFather(const T& newFather);
+    void setLeft(BinNode<T>* newLeft);
+    void setRight(BinNode<T>* newRight);
+    void setFather(BinNode<T>* newFather);
     void setHeight(int newHeight);
 
 };
@@ -39,43 +39,43 @@ BinNode<T>::~BinNode()
 }
 
 template <class T>
-BinNode<T> BinNode<T>::getLeft()
+BinNode<T>* BinNode<T>::getLeft() const
 {
     return this->m_left;
 }
 
 template <class T>
-BinNode<T> BinNode<T>::getRight()
+BinNode<T>* BinNode<T>::getRight() const
 {
     return this->m_right;
 }
 
 template <class T>
-BinNode<T> BinNode<T>::getFather()
+BinNode<T>* BinNode<T>::getFather() const
 {
     return this->m_father;
 }
 
 template <class T>
-int BinNode<T>::getHeight()
+int BinNode<T>::getHeight() const
 {
     return this->m_height;
 }
 
 template <class T>
-void BinNode<T>::setLeft(const T& newLeft)
+void BinNode<T>::setLeft(BinNode<T>* newLeft)
 {
     this->m_left = newLeft;
 }
 
 template <class T>
-void BinNode<T>::setRight(const T& newRight)
+void BinNode<T>::setRight(BinNode<T>* newRight)
 {
     this->m_right=newRight;
 }
 
 template <class T>
-void BinNode<T>::setFather(const T& newFather)
+void BinNode<T>::setFather(BinNode<T>* newFather)
 {
     this->m_father = newFather;
 }
