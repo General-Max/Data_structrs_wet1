@@ -19,8 +19,17 @@
 //}
 
 int main3(){
-    Node<int> n1 = Node<int>();
-    Node<int> n2 = Node<int>(3);
+    auto p1 = new Player(12, 1, 0, 0, 7, true);
+    Node<Player*> n1 = Node<Player*>(p1);
+    Node<Player*> n2 = Node<Player*>(p1);
+    std::cout << **n1.getData() << std::endl;
+    std::cout << **n2.getData() << std::endl;
+
+    p1->updateGoals(5);
+    std::cout << **n1.getData() << std::endl;
+    std::cout << **n2.getData() << std::endl;
+    std::cout << *p1 << std::endl;
+
     return 0;
 }
 
@@ -40,7 +49,7 @@ int main2(){
 }
 
 int main() {
-    main2();
+    main3();
     return 0;
 }
 

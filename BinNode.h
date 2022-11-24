@@ -21,21 +21,16 @@ public:
     BinNode<T> getFather();
     int getHeight();
 
-    void setLeft();
-    void setRight();
-    void setFather();
-    void setHeight();
+    void setLeft(const T& newLeft);
+    void setRight(const T& newRight);
+    void setFather(const T& newFather);
+    void setHeight(int newHeight);
 
 };
 
 template<class T>
-BinNode<T>::BinNode(const T& value): m_data(value)
-{
-    this->m_father=nullptr;
-    this->m_left=nullptr;
-    this->m_right=nullptr;
-    this->height=0
-}
+BinNode<T>::BinNode(const T& value): Node<T>(value), m_father(nullptr), m_left(nullptr), m_right(nullptr),
+        m_height(0){ }
 
 template<class T>
 BinNode<T>::~BinNode()
@@ -68,19 +63,19 @@ int BinNode<T>::getHeight()
 }
 
 template <class T>
-void BinNode<T>::setLeft(T* newLeft)
+void BinNode<T>::setLeft(const T& newLeft)
 {
     this->m_left = newLeft;
 }
 
 template <class T>
-void BinNode<T>::setRight(T* newRight)
+void BinNode<T>::setRight(const T& newRight)
 {
     this->m_right=newRight;
 }
 
 template <class T>
-void BinNode<T>::setFather(T* newFather)
+void BinNode<T>::setFather(const T& newFather)
 {
     this->m_father = newFather;
 }

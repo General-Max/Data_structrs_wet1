@@ -11,7 +11,7 @@ public:
     // Default constructor
     Node();
     // Parameterised Constructor
-    explicit Node(T *data);
+    explicit Node(const T& data);
     ~Node();
     
     T* getData();
@@ -22,13 +22,12 @@ public:
 template<class T>
 Node<T>::Node()
 {
-    this->m_data = nullptr;
+    m_data = nullptr;
 }
   
     // Parameterised Constructor
 template<class T>
-Node<T>::Node(T* data): m_data(data)
-{};
+Node<T>::Node(const T& data): m_data(data) {};
 
 template <class T>
 Node<T>::~Node()
