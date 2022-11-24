@@ -22,7 +22,7 @@ public:
 template<class T>
 Node<T>::Node()
 {
-    data = nullptr;
+    this->m_data = nullptr;
 }
   
     // Parameterised Constructor

@@ -44,49 +44,49 @@ BinNode<T>::~BinNode()
 }
 
 template <class T>
-BinNode<T> getLeft()
+BinNode<T> BinNode<T>::getLeft()
 {
     return this->m_left;
 }
 
 template <class T>
-BinNode<T> getRight()
+BinNode<T> BinNode<T>::getRight()
 {
     return this->m_right;
 }
 
 template <class T>
-BinNode<T> getFather()
+BinNode<T> BinNode<T>::getFather()
 {
     return this->m_father;
 }
 
 template <class T>
-int getHeight()
+int BinNode<T>::getHeight()
 {
     return this->m_height;
 }
 
 template <class T>
-void setLeft(T* newLeft)
+void BinNode<T>::setLeft(T* newLeft)
 {
     this->m_left = newLeft;
 }
 
 template <class T>
-void setRight(T* newRight)
+void BinNode<T>::setRight(T* newRight)
 {
     this->m_right=newRight;
 }
 
 template <class T>
-void setFather(T* newFather)
+void BinNode<T>::setFather(T* newFather)
 {
     this->m_father = newFather;
 }
 
 template <class T>
-void setHeight(int newHeight)
+void BinNode<T>::setHeight(int newHeight)
 {
     this->m_height = newHeight;
 }
