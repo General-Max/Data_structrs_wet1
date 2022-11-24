@@ -20,7 +20,7 @@
 
 int main3(){
     Node<int> n1 = Node<int>();
-    Node<int> n2 = Node<int>(&3);
+    Node<int> n2 = Node<int>(3);
     return 0;
 }
 

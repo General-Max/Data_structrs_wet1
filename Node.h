@@ -10,7 +10,7 @@ public:
     // Default constructor
     Node();
     // Parameterised Constructor
-    explicit Node(T *data);
+    explicit Node(const T& data);
 };
 
 template<class T>
@@ -21,7 +21,7 @@ Node<T>::Node()
   
     // Parameterised Constructor
 template<class T>
-Node<T>::Node(T* data)
+Node<T>::Node(const T& data)
 {
     this->data = data;
 }
