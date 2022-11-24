@@ -5,7 +5,7 @@
 template<class T>
 class Node
 {
-private:
+protected:
     T *m_data;
 public:  
     // Default constructor
@@ -15,6 +15,8 @@ public:
     ~Node();
     
     T* getData();
+
+    void setData(const T& data);
      
 
 };
@@ -39,6 +41,12 @@ template<class T>
 T* Node<T>::getData()
 {
     return this->m_data;
+}
+
+template<class T>
+void Node<T>::setData(const T& data)
+{
+    this->m_data=data;
 }
 
 #endif //EX1_NODE_H
