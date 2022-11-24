@@ -3,7 +3,8 @@
 #define EX1_NODE_H
 
 template<class T>
-class Node {
+class Node
+{
 private:
     T *m_data;
 public:  
@@ -11,8 +12,10 @@ public:
     Node();
     // Parameterised Constructor
     explicit Node(T *data);
-
-    T* getData(); 
+    ~Node();
+    
+    T* getData();
+     
 
 };
 
@@ -26,6 +29,12 @@ Node<T>::Node()
 template<class T>
 Node<T>::Node(T* data): m_data(data)
 {};
+
+template <class T>
+Node<T>::~Node()
+{
+    delete this->m_data;
+}
 
 template<class T>
 T* Node<T>::getData()
