@@ -336,22 +336,22 @@ BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<
             // Leaf
             delete nodeToDelete;
             return NULL;
-        } else if (!nodeToDelete->m_right) {
+        } else if (!nodeToDelete->getRight()) {
             // Only left son
-            BinNode<T>* temp = nodeToDelete->m_left;
-            nodeToDelete->setData(new T(*temp->m_value));
-            nodeToDelete->setLeft(removeNode(nodeToDelete, nodeToDelete->m_left));
+            BinNode<T>* temp = nodeToDelete->getLeft();
+            nodeToDelete->setData(new T(*temp->getData));
+            nodeToDelete->setLeft(removeNode(nodeToDelete, nodeToDelete->getLeft()));
 
-        } else if (!nodeToDelete->m_left) {
+        } else if (!nodeToDelete->getLeft()) {
             // Only right son
             BinNode<T>* temp = nodeToDelete->getRight();
             nodeToDelete->setData(new T(*temp->getData()));
-            nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->m_right));
+            nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->getRight()));
         } else {
             // right and left son exist
             BinNode<T> *temp = findMin(nodeToDelete->getRight());
             nodeToDelete->setData(new T(*temp->getData()));
-            nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->m_right));
+            nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->getRight()));
         }
     } else if (comparisonFunction.lessThan(*currentNode->getData(), *nodeToDelete->getData())) {
         nodeToDelete->setLeft(removeNode(currentNode, nodeToDelete->getLeft()));
@@ -404,10 +404,10 @@ BinNode<T> *AVLTree<T, Comparison>::rightRightRotation(BinNode<T> *node) {
 
     node->setHeight(findNewHeight(node));
     if(node->getFather()){
-        (node->getFather()).setHeight(findNewHeight(node));
+        (node->getFather())->setHeight(findNewHeight(node));
     }
 
-    return node->m_father;
+    return node->getFather();
 }
 
 template<class T, class Comparison>
