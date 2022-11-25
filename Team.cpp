@@ -1,12 +1,7 @@
 #include "Team.h"
 
-Team::Team(int teamId, int points) : m_teamId(teamId),m_points(points),m_topScorer(nullptr)
-{
-    m_playedTogether=0;
-    m_totalPlayers=0;
-    m_totalGoals=0;
-    m_totalCards=0;
-}
+Team::Team(int teamId, int points) : m_teamId(teamId),m_points(points),m_topScorer(nullptr), m_playedTogether(0),
+                                     m_totalPlayers(0), m_totalGoals(0), m_totalCards(0) {}
 
 int Team::getTeamId() const
 {
@@ -56,4 +51,8 @@ void Team::setTotalGoals(int totalGoals)
 void Team::setTotalCards(int totalCards)
 {
     this->m_totalCards = totalCards;
+}
+
+bool Team::isEmptyTeam() const {
+    return m_totalPlayers == 0;
 }

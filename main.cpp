@@ -4,19 +4,8 @@
 #include "Player.h"
 #include <memory>
 #include "Node.h"
-
-//int main1(){
-//    int val;
-//    AVLTree<int, SortRegular> tree;
-//    std::cout << "enter values" << std::endl;
-//    tree.insert(12);
-//    tree.printD(tree.getRoot(), 0);
-//    tree.printH(tree.getRoot(), 0);
-//    tree.insert(15);
-//    tree.printD(tree.getRoot(), 0);
-//    tree.printH(tree.getRoot(), 0);
-//    return 0;
-//}
+#include "twoWayList.h"
+#include "playerNodeWithListPointer.h"
 
 int main3(){
     auto p1 = new Player(12, 1, 0, 0, 7, true);
@@ -34,22 +23,60 @@ int main3(){
 }
 
 int main2(){
-    AVLTree<Player*, SortByScore> tree;
+    AVLTree<Player*, SortById> tree;
    // auto p1 = std::make_shared<Player>(12, 1, 0, 0, 7, true);
     auto p1 = new Player(12, 1, 0, 0, 7, true);
     tree.insert(p1);
     tree.printD(tree.getRoot(), 0);
-    tree.printH(tree.getRoot(), 0);
+    //tree.printH(tree.getRoot(), 0);
 
-    Player *p2 = new Player(15, 1, 2, 0, 6, true);
+   // std::cout << tree.find(12);
+    //std::cout << tree.find(12)->getData();
+    auto *p2 = new Player(15, 1, 2, 0, 6, true);
     tree.insert(p2);
     tree.printD(tree.getRoot(), 0);
-    tree.printH(tree.getRoot(), 0);
+   // tree.printH(tree.getRoot(), 0);
+
+    //tree.remove(p1);
+    tree.remove(15);
+    std::cout << "remove :\n";
+    tree.printD(tree.getRoot(), 0);
+
+//    std::cout << tree.find(15) << std::endl;
+//    Player* t = *tree.find(15)->getData();
+//    std::cout << tree.find(15)->getData()<<std::endl;
+//    std::cout << **tree.find(15)->getData()<<std::endl;
+    return 0;
+}
+
+int checkList(){
+    twoWayList<Player*> list;
+    auto p1 = new Player(12, 1, 0, 0, 7, true);
+    auto p2 = new Player(10, 1, 0, 3, 7, true);
+    auto p3 = new Player(15, 1, 0, 6, 7, true);
+    auto* n1 = new ListNode<Player*>(p1);
+    auto* n2 = new ListNode<Player*>(p2);
+    auto* n3 = new ListNode<Player*>(p3);
+    auto* n4 = new ListNode<Player*>(p3);
+    list.insertAfter(n1);
+    list.printList();
+    list.insertAfter(n2, n1);
+    list.printList();
+    list.insertAfter(n3, n1);
+    list.printList();
+    list.deleteNode(n1);
+    list.printList();
+
+    auto* node1 = new PlayerNodeWithListPointer(p1);
+    auto* node2 = new PlayerNodeWithListPointer(p1);
+    node1->setPositionInList(n1);
+    node2->setPositionInList(n1);
+
     return 0;
 }
 
 int main() {
-    main3();
+    main2();
     return 0;
 }
 

@@ -2,6 +2,7 @@
 #define EX1_Team_H
 
 #include "Player.h"
+#include "AVLTree.h"
 
 class Team{
     public:
@@ -21,7 +22,8 @@ class Team{
         void setTotalPlayers(int totalPlayers);
         void setTotalGoals(int totalGoals);
         void setTotalCards(int totalCards);
-    
+
+        bool isEmptyTeam() const;
     private:
         int m_teamId;
         int m_points;
@@ -30,8 +32,8 @@ class Team{
         int m_totalPlayers;
         int m_totalGoals;
         int m_totalCards;
-        //AVLTree<Player*> playersByID
-        //AVLTree<Player*> playersByGoals(and their order)
+      //  AVLTree<Player*, SortById> m_teamPlayersByID;
+        //AVLTree<Player*, SortByScore> m_teamPlayersByScore;
 };
 
 #endif //EX1_Team_H

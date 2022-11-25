@@ -1,25 +1,38 @@
 #include "worldcup23a1.h"
+#include "Team.h"
+#include "Player.h"
 
-world_cup_t::world_cup_t() :m_topScorer(nullptr)
+world_cup_t::world_cup_t() :m_topScorer(nullptr), m_numPlayers(0)
 {
-	m_numPlayers = 0;
-	//and add the rest
+		//and add the rest
+        //TODO: יש טעם להוסיף את האחרים או שזה כבר אותחל?
 }
 
 world_cup_t::~world_cup_t()
 {
-	// TODO: Your code goes here
+	// TODO: check if needed: delete m_topScorer
+    // TODO:: check if all the rest deleted automatically because destroying this call each one destructor
 }
 
 
 StatusType world_cup_t::add_team(int teamId, int points)
 {
 	// TODO: Your code goes here
-
 	if(teamId<=0 || points<0){
 		return StatusType::INVALID_INPUT;
 	}
 
+    if(m_teams.find(teamId)){
+        return StatusType::FAILURE;
+    }
+    Team* newTeam = new Team(teamId, points);
+    try{
+        m_teams.insert(newTeam);
+    }
+    catch(...){
+        delete newTeam;
+        return StatusType::ALLOCATION_ERROR;
+    }
 	return StatusType::SUCCESS;
 }
 
@@ -30,8 +43,16 @@ StatusType world_cup_t::remove_team(int teamId)
 	if(teamId<=0){
 		return StatusType::INVALID_INPUT;
 	}
-
-	return StatusType::FAILURE;
+    if((!m_teams.find(teamId)) || !(*m_teams.find(teamId)->getData())->isEmptyTeam()){
+        return StatusType::FAILURE;
+    }
+    try{
+        m_teams.remove(teamId);
+    }
+    catch(...){
+        return StatusType::ALLOCATION_ERROR;
+    }
+	return StatusType::SUCCESS;
 }
 
 StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,

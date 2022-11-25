@@ -14,8 +14,8 @@ private:
     int m_height;
 
 public:
-    BinNode(const T& value);
-    ~BinNode();
+    explicit BinNode<T>(const T& value);
+    ~BinNode<T>() = default;
     BinNode<T>* getLeft() const;
     BinNode<T>* getRight() const;
     BinNode<T>* getFather() const;
@@ -31,12 +31,6 @@ public:
 template<class T>
 BinNode<T>::BinNode(const T& value): Node<T>(value), m_father(nullptr), m_left(nullptr), m_right(nullptr),
         m_height(0){ }
-
-template<class T>
-BinNode<T>::~BinNode()
-{
-    delete this->m_data;
-}
 
 template <class T>
 BinNode<T>* BinNode<T>::getLeft() const

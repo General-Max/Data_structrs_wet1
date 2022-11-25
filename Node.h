@@ -16,16 +16,11 @@ public:
     
     T* getData();
 
-    void setData(const T& data);
-     
-
+    void setData(T* data);
 };
 
 template<class T>
-Node<T>::Node()
-{
-    m_data = nullptr;
-}
+Node<T>::Node(): m_data(nullptr){ }
   
     // Parameterised Constructor
 template<class T>
@@ -44,7 +39,7 @@ T* Node<T>::getData()
 }
 
 template<class T>
-void Node<T>::setData(const T& data)
+void Node<T>::setData(T *data)
 {
     this->m_data=data;
 }

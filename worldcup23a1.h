@@ -18,7 +18,9 @@
 #include "wet1util.h"
 #include "Player.h"
 #include "Team.h"
-
+#include "AVLTree.h"
+#include "twoWayList.h"
+#include "sortingTreeMethods.h"
 
 class world_cup_t {
 private:
@@ -34,8 +36,12 @@ private:
 	//AVLTree<Brackets>// the "cosher" teams
 	int m_numPlayers;
 	Player* m_topScorer;
+    AVLTree<Player*, SortByScore> m_playersByScore;
+    AVLTree<Player*, SortById> m_playersById;
+	AVLTree<Team*, SortTeamById> m_teams;
+	AVLTree<Team*, SortTeamById> m_validTeams;
+    twoWayList<Player*> m_playersListByScore;
 
-	
 public:
 	// <DO-NOT-MODIFY> {
 	

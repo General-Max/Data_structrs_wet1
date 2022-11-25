@@ -33,6 +33,8 @@ private:
 
     BinNode<T> *findNode(BinNode<T> *node, const T &data);
 
+    BinNode<T> *findNode(BinNode<T> *node, int id);
+
     BinNode<T> *removeNode(BinNode<T> *currentNode, BinNode<T> *nodeToDelete);
 
     int getBalanceFactor(BinNode<T> *node) const;
@@ -51,6 +53,7 @@ private:
     BinNode<T> *rightRightRotation(BinNode<T> *node);
 
     // Constructor, Destructor helper functions
+    // TODO:: replace it becuse now node is class
     BinNode<T>* copyNode(BinNode<T> *node);
 
     void empty_aux(BinNode<T> *node);
@@ -77,9 +80,13 @@ public:
     // Interface Functions
     void insert(const T &data);
 
-    T *find(const T &data);
+    bool find(const T &data);
+
+    BinNode<T> * find(int id);
 
     void remove(const T &data);
+
+    void remove(int idOfNodeToDelete);
 
     int getHeight() const;
 
@@ -148,11 +155,24 @@ void AVLTree<T, Comparison>::insert(const T& data) {
 }
 
 template<class T, class Comparison>
-T* AVLTree<T, Comparison>::find(const T& data){
+bool AVLTree<T, Comparison>::find(const T& data){
     BinNode<T>* node = findNode(m_root, data);
-    if(node == NULL)
+    if(node == NULL){
         std::cout << "throw NodeDoesntExist()";
-    return node->getData();
+        return false;
+    }
+    return true;
+}
+
+
+template<class T, class Comparison>
+BinNode<T> * AVLTree<T, Comparison>::find(int id){
+    BinNode<T>* node = findNode(m_root, id);
+    if(node == NULL){
+        std::cout << "throw NodeDoesntExist()";
+        return nullptr;
+    }
+    return node;
 }
 
 template<class T, class Comparison>
@@ -167,11 +187,31 @@ void AVLTree<T, Comparison>::remove(const T& data) {
     }
 
     m_root = removeNode(node_to_remove, m_root);
+   // m_root = removeNode(m_root, node_to_remove);
     // update minimum and maximum tree nodes
     m_minValueNode = findMin(m_root);
     m_maxValueNode = findMax(m_root);
     m_size--;
 }
+
+template<class T, class Comparison>
+void AVLTree<T, Comparison>::remove(int idOfNodeToDelete) {
+    if (isEmpty()) {
+        return;
+    }
+    BinNode<T>* nodeToRemove = findNode(m_root, idOfNodeToDelete);
+
+    if (nodeToRemove == NULL) {
+        std::cout << "throw NodeDoesntExist()";
+    }
+
+    m_root = removeNode(nodeToRemove, m_root);
+    // update minimum and maximum tree nodes
+    m_minValueNode = findMin(m_root);
+    m_maxValueNode = findMax(m_root);
+    m_size--;
+}
+
 template<class T, class Comparison>
 void AVLTree<T, Comparison>::empty_aux(BinNode<T>* node) {
     if(node == NULL){
@@ -326,20 +366,36 @@ BinNode<T> *AVLTree<T, Comparison>::findNode(BinNode<T> *node, const T &data) {
 }
 
 template<class T, class Comparison>
-BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<T> *nodeToDelete){
-    if (currentNode == NULL) {
+BinNode<T> *AVLTree<T, Comparison>::findNode(BinNode<T> *node, int id) {
+    if(node == NULL)
         return NULL;
+    if (comparisonFunction.equalTo(*(node->getData()), id)) {
+        return node;
+    } else {
+        if(comparisonFunction.lessThan(*node->getData(), id)){
+            return findNode(node->getRight(), id);
+        } else {
+            return findNode(node->getLeft(), id);
+        }
+    }
+}
+
+
+template<class T, class Comparison>
+BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<T> *nodeToDelete){
+    if (currentNode == nullptr) {
+        return nullptr;
     }
     // Delete the node
     if (*currentNode->getData() == *nodeToDelete->getData()) {
         if (!nodeToDelete->getRight() && !nodeToDelete->getLeft()) {
             // Leaf
             delete nodeToDelete;
-            return NULL;
+            return nullptr;
         } else if (!nodeToDelete->getRight()) {
             // Only left son
             BinNode<T>* temp = nodeToDelete->getLeft();
-            nodeToDelete->setData(new T(*temp->getData));
+            nodeToDelete->setData(new T(*temp->getData()));
             nodeToDelete->setLeft(removeNode(nodeToDelete, nodeToDelete->getLeft()));
 
         } else if (!nodeToDelete->getLeft()) {
@@ -354,10 +410,15 @@ BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<
             nodeToDelete->setRight(removeNode(nodeToDelete, nodeToDelete->getRight()));
         }
 
-    } else if (comparisonFunction.lessThan(*currentNode->getData(), *nodeToDelete->getData())) {
-        nodeToDelete->setLeft(removeNode(currentNode, nodeToDelete->getLeft()));
-    } else {
-        nodeToDelete->setRight(removeNode(currentNode, nodeToDelete->getRight()));
+    }
+    else{
+        T p1 = *currentNode->getData();
+        T p2 = *nodeToDelete->getData();
+        if (comparisonFunction.lessThan(p1,p2)) {
+            nodeToDelete->setLeft(removeNode(currentNode, nodeToDelete->getLeft()));
+        } else {
+            nodeToDelete->setRight(removeNode(currentNode, nodeToDelete->getRight()));
+        }
     }
 
     nodeToDelete->setHeight(findNewHeight(nodeToDelete));
@@ -476,5 +537,6 @@ template<class T, class Comparison>
 T *AVLTree<T, Comparison>::getMaxValueInTree() const {
     return m_maxValueNode->getData();
 }
+
 
 #endif //EX1_AVLTREE_H
