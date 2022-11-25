@@ -12,6 +12,8 @@ public:
     Node();
     // Parameterised Constructor
     explicit Node(const T& data);
+
+    //should be virtual?
     ~Node();
     
     T* getData();
