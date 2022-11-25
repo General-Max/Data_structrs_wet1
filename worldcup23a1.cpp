@@ -38,9 +38,7 @@ StatusType world_cup_t::add_team(int teamId, int points)
 
 StatusType world_cup_t::remove_team(int teamId)
 {
-	// TODO: Your code goes here
-
-	if(teamId<=0){
+    if(teamId<=0){
 		return StatusType::INVALID_INPUT;
 	}
     if((!m_teams.find(teamId)) || !(*m_teams.find(teamId)->getData())->isEmptyTeam()){
@@ -48,6 +46,9 @@ StatusType world_cup_t::remove_team(int teamId)
     }
     try{
         m_teams.remove(teamId);
+        if((m_validTeams.find(teamId)) && (*m_validTeams.find(teamId)->getData())->isEmptyTeam()){
+            m_validTeams.remove(teamId);
+        }
     }
     catch(...){
         return StatusType::ALLOCATION_ERROR;
@@ -59,10 +60,15 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
                                    int goals, int cards, bool goalKeeper)
 {
 	// TODO: Your code goes here
+    Team* currentTeam = *m_teams.find(teamId)->getData();
+    if(playerId<=0 || teamId<=0 || gamesPlayed<0 || goals<0 ||cards<0 || (gamesPlayed=0 && (goals>0 || cards>0))){
+        return StatusType::INVALID_INPUT;
+    }
 
-	if(playerId<=0 || teamId<=0 || gamesPlayed<0 || goals<0 ||cards<0 || (gamesPlayed=0 && (goals>0 || cards>0))){
-		return StatusType::INVALID_INPUT;
-	}
+    if(currentTeam== nullptr || *m_teams.find(teamId)->getData() != nullptr){
+        return StatusType::FAILURE;
+    }
+
 	return StatusType::SUCCESS;
 }
 

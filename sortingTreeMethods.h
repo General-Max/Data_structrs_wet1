@@ -6,7 +6,6 @@
 #define DATA_STRUCTRS_WET1_SORTINGTREEMETHODS_H
 
 #include "Player.h"
-#include "Team.h"
 
 class SortRegular{
 public:
@@ -47,19 +46,7 @@ public:
     static bool lessThan(Player* player1, int otherGoals);
 };
 
-class SortTeamById{
-public:
-    SortTeamById() = default;
-    ~SortTeamById() = default;
 
-    static bool equalTo(Team* team1, Team* team2);
-
-    static bool equalTo(Team* team1, int otherId);
-
-    static bool lessThan(Team* team1, Team* team2);
-
-    static bool lessThan(Team* team1, int otherId);
-};
 
 
 #endif //DATA_STRUCTRS_WET1_SORTINGTREEMETHODS_H

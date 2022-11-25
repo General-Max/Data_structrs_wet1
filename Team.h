@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "AVLTree.h"
+#include "sortingTreeMethods.h"
 
 class Team{
     public:
@@ -32,8 +33,8 @@ class Team{
         int m_totalPlayers;
         int m_totalGoals;
         int m_totalCards;
-      //  AVLTree<Player*, SortById> m_teamPlayersByID;
-        //AVLTree<Player*, SortByScore> m_teamPlayersByScore;
+        AVLTree<Player*, SortById> m_teamPlayersByID;
+        AVLTree<Player*, SortByScore> m_teamPlayersByScore;
 };
 
 #endif //EX1_Team_H

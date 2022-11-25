@@ -64,20 +64,3 @@ bool SortRegular::lessThan(int n1, int n2) {
 }
 
 
-// sort team by its id
-bool SortTeamById::equalTo(Team* team1, Team* team2){
-    return team1->getTeamId()==team2->getTeamId();
-}
-
-bool SortTeamById::equalTo(Team *team1, int otherId) {
-    return team1->getTeamId()==otherId;
-}
-
-bool SortTeamById::lessThan(Team* team1, Team* team2){
-    return team1->getTeamId() < team2->getTeamId();
-}
-
-bool SortTeamById::lessThan(Team* team1, int otherId){
-    return team1->getTeamId() < otherId;
-}
-
