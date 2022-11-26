@@ -2,6 +2,8 @@
 #define EX1_Player_H
 
 #include <ostream>
+#include "Team.h"
+#include "twoWayList.h"
 using std::ostream;
 
 class Player{
@@ -29,8 +31,11 @@ public:
 
     void updateCards (int newCardsNumber);
 
-    //TODO: CHECK IF NEED
     void setGoalKeeper(bool isGoalKeeper);
+
+    void setTeamPtr(Team* teamPtr);
+
+    void setDequePtr(twoWayList<Player>* dequePtr);
 
 private:
     int m_playerId;
@@ -39,6 +44,9 @@ private:
     int m_goals;
     int m_cards;
     bool m_goalKeeper;
+    Team* m_teamPtr;
+    twoWayList<Player>* m_dequePtr;
+
 };
 
 #endif
