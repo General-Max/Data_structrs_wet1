@@ -9,7 +9,6 @@ class Team{
     public:
         Team(int teamId, int points);
         ~Team() = default;
-
         int getTeamId() const;
         int getPoints() const;
         int getPlayedTogether() const;

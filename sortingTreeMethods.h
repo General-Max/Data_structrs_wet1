@@ -19,7 +19,7 @@ public:
 };
 
 
-class SortById{
+public class SortById{
 public:
     SortById() = default;
     ~SortById() = default;
@@ -32,7 +32,7 @@ public:
     static bool lessThan(Player* player1, int otherId);
 };
 
-class SortByScore{
+public class SortByScore{
 public:
     SortByScore() = default;
     ~SortByScore() = default;

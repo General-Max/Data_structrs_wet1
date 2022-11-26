@@ -6,12 +6,15 @@
 #define DATA_STRUCTRS_WET1_TWOWAYLIST_H
 #include "listNode.h"
 #include <iostream>
+#include "BinNode.h"
+#include "sortingTreeMethods.h"
 
 template<class T>
 class twoWayList{
 private:
+
     ListNode<T>* m_head;
- //   ListNode<T>* tail;
+    SortById comparisonFunction;
 public:
     twoWayList();
     ~twoWayList();
@@ -22,6 +25,7 @@ public:
 //    void setHead(ListNode<T>* newHeadNode);
 //    void setTail(ListNode<T>* newTailNode);
 
+    void insert(BinNode<T>* node);
     void insertAfter(ListNode<T>* newNode, ListNode<T>* prevNode = nullptr);
     void insertBefore(ListNode<T>* newNode, ListNode<T>* nextNode = nullptr);
     void deleteNode(ListNode<T>* nodeToDelete);
@@ -43,6 +47,13 @@ twoWayList<T>::~twoWayList()
         toDelete = temp;
     }
 }
+
+template <class T>
+void twoWayList<T>::insert(BinNode<T>* node){
+    BinNode<T>* father = node->getFather();
+    if()
+}
+
 template <class T>
 void twoWayList<T>::insertAfter(ListNode<T>* newNode, ListNode<T>* prevNode)
 {

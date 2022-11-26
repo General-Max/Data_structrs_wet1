@@ -111,7 +111,7 @@ public:
 
     bool find(const T &data);
 
-    T* find(int id);
+    BinNode<T>* find(int id);
 
     void remove(const T &data);
 
@@ -195,7 +195,7 @@ bool AVLTree<T, Comparison>::find(const T& data){
 
 
 template<class T, class Comparison>
-T* AVLTree<T, Comparison>::find(int id){
+BinNode<T>* AVLTree<T, Comparison>::find(int id){
     BinNode<T>* node = findNode(m_root, id);
     if(node == NULL){
         std::cout << "throw NodeDoesntExist()";
@@ -216,7 +216,6 @@ void AVLTree<T, Comparison>::remove(const T& data) {
     }
 
     m_root = removeNode(node_to_remove, m_root);
-   // m_root = removeNode(m_root, node_to_remove);
     // update minimum and maximum tree nodes
     m_minValueNode = findMin(m_root);
     m_maxValueNode = findMax(m_root);
