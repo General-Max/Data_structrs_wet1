@@ -16,6 +16,7 @@ class Team{
         int getTotalGoals() const;
         int getTotalCards() const;
 
+        void updatePoints(int points);
         void setPlayedTogether(int playedTogether);
         void setTotalPlayers(int totalPlayers);
         void setTotalGoals(int totalGoals);

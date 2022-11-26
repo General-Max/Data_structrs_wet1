@@ -61,4 +61,9 @@ void Team::insertPlayer(Player* player)
     //needs to be finishid!!!!   
 }
 
+void Team::updatePoints(int points)
+{
+    this->m_points+=points;
+}
+
 

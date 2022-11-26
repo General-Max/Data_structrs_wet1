@@ -11,7 +11,14 @@ world_cup_t::world_cup_t() :m_topScorer(nullptr), m_numPlayers(0)
 world_cup_t::~world_cup_t()
 {
 	// TODO: check if needed: delete m_topScorer
-    // TODO:: check if all the rest deleted automatically because destroying this call each one destructor
+    // TODO: check if all the rest deleted automatically because destroying this call each one destructor
+	// TODO: how to destruct an object 
+	delete m_topScorer;
+    AVLTree<Player*, SortByScore> m_playersByScore;
+    AVLTree<Player*, SortById> m_playersById;
+	AVLTree<Team*, SortTeamById> m_teams;
+	AVLTree<Team*, SortTeamById> m_validTeams;
+    twoWayList<Player*> m_playersListByScore;
 }
 
 
@@ -25,11 +32,12 @@ StatusType world_cup_t::add_team(int teamId, int points)
     if(m_teams.find(teamId)){
         return StatusType::FAILURE;
     }
-    Team* newTeam = new Team(teamId, points);
+	Team* newTeam;
     try{
-        m_teams.insert(newTeam);
+		newTeam = new Team(teamId, points);
+		m_teams.insert(newTeam);
     }
-    catch(...){
+    catch(std::bad_alloc&){
         delete newTeam;
         return StatusType::ALLOCATION_ERROR;
     }
@@ -50,7 +58,7 @@ StatusType world_cup_t::remove_team(int teamId)
             m_validTeams.remove(teamId);
         }
     }
-    catch(...){
+    catch(std::bad_alloc&){
         return StatusType::ALLOCATION_ERROR;
     }
 	return StatusType::SUCCESS;
@@ -60,22 +68,31 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
                                    int goals, int cards, bool goalKeeper)
 {
 	// TODO: Your code goes here
-    Team* currentTeam = *m_teams.find(teamId)->getData();
     if(playerId<=0 || teamId<=0 || gamesPlayed<0 || goals<0 ||cards<0 || (gamesPlayed=0 && (goals>0 || cards>0))){
         return StatusType::INVALID_INPUT;
     }
 
-    if(currentTeam== nullptr || *m_teams.find(teamId)->getData() != nullptr){
+
+	// can a pointer creation fail?
+    Team* currentTeam = *m_teams.find(teamId)->getData();
+    if(currentTeam== nullptr || *m_teams.find(teamId)->getData() == nullptr || 
+	*m_playersById.find(playerId)->getData()!=nullptr){
         return StatusType::FAILURE;
     }
     try{
       //  Player(int playerId, int teamId, int gamesPlayed, int goals, int cards, bool goalkeeper); // check for consts
+        auto newPlayer = new Player(playerId, teamId, gamesPlayed, goals, cards, goalKeeper);
+		newPlayer->setTeamPtr(currentTeam);
 
-        Player newPlayer = new Player(playerId, teamId, gamesPlayed)
-        m_playersById.insert()
-    }
-    catch(...){
-
+		newPlayer->setDequePtr(nullptr);
+		//conncet to deque;
+        m_playersById.insert(newPlayer);
+		m_playersByScore.insert(newPlayer);
+		//currentTeam.
+		
+	}
+    catch(std::bad_alloc&){
+		return StatusType::ALLOCATION_ERROR;
     }
 
 	return StatusType::SUCCESS;
@@ -87,6 +104,19 @@ StatusType world_cup_t::remove_player(int playerId)
 	if(playerId<=0){
 		return StatusType::INVALID_INPUT;
 	}
+
+	Player* playerToDelete=*m_playersById.find(playerId)->getData();
+	if(playerToDelete==nullptr){
+		return StatusType::FAILURE;
+	}
+
+	try{
+
+	}
+	catch(...){
+		;
+	}
+	
 
 	return StatusType::SUCCESS;
 }
@@ -101,14 +131,38 @@ StatusType world_cup_t::update_player_stats(int playerId, int gamesPlayed,
 
 	return StatusType::SUCCESS;
 }
-
 StatusType world_cup_t::play_match(int teamId1, int teamId2)
 {
 	// TODO: Your code goes here
 	if(teamId1<=0 || teamId2<=0 || teamId1==teamId2){
 		return StatusType::INVALID_INPUT;
 	}
+	
+	BinNode<Team*>* team1Ptr = m_teams.find(teamId1);
+	BinNode<Team*>* team2Ptr = m_teams.find(teamId2);
+	if(team1Ptr == nullptr || team2Ptr == nullptr){
+		return StatusType::FAILURE;
+	}
+	Team* team1 = *team1Ptr->getData();
+	Team* team2 = *team2Ptr->getData();
+	if(team1->getTotalPlayers()<11 ||team2->getTotalPlayers()<11){
+		return StatusType::FAILURE;
+	}
+	int power1 = team1->getPoints()+team1->getTotalGoals()-team1->getTotalCards();
+	int power2 = team2->getPoints()+team2->getTotalGoals()-team2->getTotalCards();
+	
+	if(power1 == power2){
+		team1->updatePoints(DRAW);
+		team2->updatePoints(DRAW);
+	}
 
+	else if(power1 > power2){
+		team1->updatePoints(WIN);
+	}
+	else{
+		team2->updatePoints(WIN);
+	}
+	
 	return StatusType::SUCCESS;
 }
 
