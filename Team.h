@@ -23,8 +23,10 @@ class Team{
         void setTotalPlayers(int totalPlayers);
         void setTotalGoals(int totalGoals);
         void setTotalCards(int totalCards);
+        void insertPlayer(Player* player);
 
         bool isEmptyTeam() const;
+    
     private:
         int m_teamId;
         int m_points;

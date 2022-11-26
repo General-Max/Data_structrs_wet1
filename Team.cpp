@@ -56,3 +56,20 @@ void Team::setTotalCards(int totalCards)
 bool Team::isEmptyTeam() const {
     return m_totalPlayers == 0;
 }
+
+void Team::insertPlayer(Player* player)
+{
+    if(player->getGoals()>m_topScorer->getGoals())
+    {
+        this->m_topScorer = player;
+    }
+
+    m_teamPlayersByID.insert(player);
+    m_teamPlayersByScore.insert(player);
+    m_totalCards+=player->getCards();
+    m_totalGoals+=player->getGoals();
+    m_totalPlayers++;
+    //needs to be finishid!!!!   
+}
+
+
