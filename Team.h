@@ -12,23 +12,22 @@ class Team{
         int getTeamId() const;
         int getPoints() const;
         int getPlayedTogether() const;
-        Player* getTopScorer() const;
         int getTotalPlayers() const;
         int getTotalGoals() const;
         int getTotalCards() const;
 
         void setPlayedTogether(int playedTogether);
-        void setTopScorer(Player* topScorer);
         void setTotalPlayers(int totalPlayers);
         void setTotalGoals(int totalGoals);
         void setTotalCards(int totalCards);
+        void insertPlayer(Player* player);
 
         bool isEmptyTeam() const;
+    
     private:
         int m_teamId;
         int m_points;
         int m_playedTogether;
-        Player* m_topScorer;
         int m_totalPlayers;
         int m_totalGoals;
         int m_totalCards;
