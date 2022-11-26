@@ -38,7 +38,6 @@ int main2(){
    // tree.printH(tree.getRoot(), 0);
 
     //tree.remove(p1);
-    tree.remove(15);
     std::cout << "remove :\n";
     tree.printD(tree.getRoot(), 0);
 
