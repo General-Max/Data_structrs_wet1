@@ -21,6 +21,7 @@
 #include "AVLTree.h"
 #include "twoWayList.h"
 #include "sortingTreeMethods.h"
+#include "SortTeamById.h"
 
 class world_cup_t {
 private:

@@ -68,6 +68,15 @@ StatusType world_cup_t::add_player(int playerId, int teamId, int gamesPlayed,
     if(currentTeam== nullptr || *m_teams.find(teamId)->getData() != nullptr){
         return StatusType::FAILURE;
     }
+    try{
+      //  Player(int playerId, int teamId, int gamesPlayed, int goals, int cards, bool goalkeeper); // check for consts
+
+        Player newPlayer = new Player(playerId, teamId, gamesPlayed)
+        m_playersById.insert()
+    }
+    catch(...){
+
+    }
 
 	return StatusType::SUCCESS;
 }

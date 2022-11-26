@@ -4,6 +4,8 @@
 
 #ifndef EX1_AVLTREE_H
 #define EX1_AVLTREE_H
+static void *const nullptr = NULL;
+
 #include <iostream>
 #include "BinNode.h"
 
@@ -104,7 +106,7 @@ public:
 };
 
 template<class T, class Comparison>
-AVLTree<T, Comparison>::AVLTree() : m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL), m_size(0) {
+AVLTree<T, Comparison>::AVLTree() : m_root(nullptr), m_minValueNode(nullptr), m_maxValueNode(nullptr), m_size(0) {
 }
 
 template<class T, class Comparison>
@@ -127,7 +129,7 @@ AVLTree<T, Comparison>& AVLTree<T, Comparison>::operator=(const AVLTree<T, Compa
 }
 
 template<class T, class Comparison>
-AVLTree<T, Comparison>::AVLTree(const AVLTree<T, Comparison>& tree):m_root(NULL), m_minValueNode(NULL), m_maxValueNode(NULL),
+AVLTree<T, Comparison>::AVLTree(const AVLTree<T, Comparison>& tree):m_root(nullptr), m_minValueNode(nullptr), m_maxValueNode(nullptr),
             m_size(tree.getSize()){
     // todo: check if can be added to the comprehension list
     m_root = copyNode(tree.getRoot());
@@ -138,16 +140,16 @@ AVLTree<T, Comparison>::AVLTree(const AVLTree<T, Comparison>& tree):m_root(NULL)
 
 template<class T, class Comparison>
 void AVLTree<T, Comparison>::insert(const T& data) {
-    if (&data == NULL) {
+    if (&data == nullptr) {
         return;
     }
-    if (findNode(m_root, data) != NULL) {
+    if (findNode(m_root, data) != nullptr) {
         std::cout << "throw NodeExists()";
     }
 
     auto *node = new BinNode<T>(data);
 
-    m_root = insertNode(node, m_root, NULL);
+    m_root = insertNode(node, m_root, nullptr);
     // update minimum and maximum tree nodes
     m_minValueNode = findMin(m_root);
     m_maxValueNode = findMax(m_root);
@@ -157,7 +159,7 @@ void AVLTree<T, Comparison>::insert(const T& data) {
 template<class T, class Comparison>
 bool AVLTree<T, Comparison>::find(const T& data){
     BinNode<T>* node = findNode(m_root, data);
-    if(node == NULL){
+    if(node == nullptr){
         std::cout << "throw NodeDoesntExist()";
         return false;
     }
@@ -168,7 +170,7 @@ bool AVLTree<T, Comparison>::find(const T& data){
 template<class T, class Comparison>
 BinNode<T> * AVLTree<T, Comparison>::find(int id){
     BinNode<T>* node = findNode(m_root, id);
-    if(node == NULL){
+    if(node == nullptr){
         std::cout << "throw NodeDoesntExist()";
         return nullptr;
     }
@@ -177,12 +179,12 @@ BinNode<T> * AVLTree<T, Comparison>::find(int id){
 
 template<class T, class Comparison>
 void AVLTree<T, Comparison>::remove(const T& data) {
-    if (isEmpty() || &data == NULL) {
+    if (isEmpty() || &data == nullptr) {
         return;
     }
     BinNode<T>* node_to_remove = findNode(m_root, data);
 
-    if (node_to_remove == NULL) {
+    if (node_to_remove == nullptr) {
         std::cout << "throw NodeDoesntExist()";
     }
 
@@ -201,7 +203,7 @@ void AVLTree<T, Comparison>::remove(int idOfNodeToDelete) {
     }
     BinNode<T>* nodeToRemove = findNode(m_root, idOfNodeToDelete);
 
-    if (nodeToRemove == NULL) {
+    if (nodeToRemove == nullptr) {
         std::cout << "throw NodeDoesntExist()";
     }
 
@@ -214,7 +216,7 @@ void AVLTree<T, Comparison>::remove(int idOfNodeToDelete) {
 
 template<class T, class Comparison>
 void AVLTree<T, Comparison>::empty_aux(BinNode<T>* node) {
-    if(node == NULL){
+    if(node == nullptr){
         return;
     }
 
@@ -231,16 +233,16 @@ template<class T, class Comparison>
 void AVLTree<T, Comparison>::emptyTree() {
     if(m_size > 0){
         empty_aux(m_root);
-        m_root = NULL;
-        m_minValueNode = NULL;
-        m_maxValueNode = NULL;
+        m_root = nullptr;
+        m_minValueNode = nullptr;
+        m_maxValueNode = nullptr;
         m_size = 0;
     }
 }
 
 template<class T, class Comparison>
 int AVLTree<T, Comparison>::getHeight()const{
-    if (m_root == NULL) {
+    if (m_root == nullptr) {
         return 0;
     }
     return m_root->m_height;
@@ -258,7 +260,7 @@ bool AVLTree<T, Comparison>::isEmpty() const{
 
 template <class T, class Comparison>
 void AVLTree<T, Comparison>::printD(BinNode<T> *node, int space){
-    if(node==NULL)
+    if(node==nullptr)
         return;
     space += 10;
     printD(node->getRight(), space);
@@ -272,7 +274,7 @@ void AVLTree<T, Comparison>::printD(BinNode<T> *node, int space){
 
 template <class T, class Comparison>
 void AVLTree<T, Comparison>::printH(BinNode<T> *node, int space){
-    if(node==NULL)
+    if(node==nullptr)
         return;
     space += 10;
     printH(node->getRight(), space);
@@ -291,9 +293,9 @@ BinNode<T> *AVLTree<T, Comparison>::initNode(const T &data) {
     BinNode<T>* node = new BinNode<T>();
     node->setData(new T(data));
     node->setHeight(0);
-    node->setLeft(NULL);
-    node->setRight(NULL);
-    node->setFather(NULL);
+    node->setLeft(nullptr);
+    node->setRight(nullptr);
+    node->setFather(nullptr);
     return node;
 }
 
@@ -330,7 +332,7 @@ BinNode<T> *AVLTree<T, Comparison>::balanceTree(BinNode<T> *node) {
 template<class T, class Comparison>
 BinNode<T> *AVLTree<T, Comparison>::insertNode(BinNode<T>  *newNode, BinNode<T> *currentNode,
                                                BinNode<T> *father){
-    if (currentNode == NULL) {
+    if (currentNode == nullptr) {
         newNode->setFather(father);
         return newNode;
     }
@@ -352,8 +354,8 @@ int AVLTree<T, Comparison>::findNewHeight(const BinNode<T> *node) const {
 
 template<class T, class Comparison>
 BinNode<T> *AVLTree<T, Comparison>::findNode(BinNode<T> *node, const T &data) {
-    if(node == NULL)
-        return NULL;
+    if(node == nullptr)
+        return nullptr;
     if (comparisonFunction.equalTo(data, *node->getData())) {
         return node;
     } else {
@@ -367,8 +369,8 @@ BinNode<T> *AVLTree<T, Comparison>::findNode(BinNode<T> *node, const T &data) {
 
 template<class T, class Comparison>
 BinNode<T> *AVLTree<T, Comparison>::findNode(BinNode<T> *node, int id) {
-    if(node == NULL)
-        return NULL;
+    if(node == nullptr)
+        return nullptr;
     if (comparisonFunction.equalTo(*(node->getData()), id)) {
         return node;
     } else {
@@ -429,12 +431,12 @@ BinNode<T> *AVLTree<T, Comparison>::removeNode(BinNode<T> *currentNode, BinNode<
 
 template<class T, class Comparison>
 int AVLTree<T, Comparison>::getBalanceFactor(BinNode<T> *node) const {
-    return node == NULL ? -1 : (height(node->getLeft()) - height(node->getRight()));
+    return node == nullptr ? -1 : (height(node->getLeft()) - height(node->getRight()));
 }
 
 template<class T, class Comparison>
 int AVLTree<T, Comparison>::height(const BinNode<T>* node) const{
-    return node == NULL ? -1 : node->getHeight();
+    return node == nullptr ? -1 : node->getHeight();
 }
 
 template<class T, class Comparison>
@@ -486,8 +488,8 @@ BinNode<T> *AVLTree<T, Comparison>::leftRightRotation(BinNode<T> *node) {
 
 template<class T, class Comparison>
 BinNode<T> *AVLTree<T, Comparison>::copyNode(BinNode<T>* node) {
-    if(node == NULL){
-        return NULL;
+    if(node == nullptr){
+        return nullptr;
     }
     BinNode<T>* left = copyNode(node->getLeft());
     BinNode<T>* right = copyNode(node->getRight());
@@ -506,8 +508,8 @@ BinNode<T> *AVLTree<T, Comparison>::copyNode(BinNode<T>* node) {
 
 template<class T, class Comparison>
 BinNode<T>* AVLTree<T, Comparison>::findMin(BinNode<T>* node) const{
-    if (node == NULL) {
-        return NULL;
+    if (node == nullptr) {
+        return nullptr;
     }
     if (!node->getLeft()) {
         return node;
@@ -518,10 +520,10 @@ BinNode<T>* AVLTree<T, Comparison>::findMin(BinNode<T>* node) const{
 
 template<class T, class Comparison>
 BinNode<T>* AVLTree<T, Comparison>::findMax(BinNode<T>* node) const{
-    if (node == NULL) {
-        return NULL;
+    if (node == nullptr) {
+        return nullptr;
     }
-    if (node->getRight() == NULL) {
+    if (node->getRight() == nullptr) {
         return node;
     }
 
