@@ -1,6 +1,6 @@
 #include "Team.h"
 
-Team::Team(int teamId, int points) : m_teamId(teamId),m_points(points),m_topScorer(nullptr), m_playedTogether(0),
+Team::Team(int teamId, int points) : m_teamId(teamId),m_points(points), m_playedTogether(0),
                                      m_totalPlayers(0), m_totalGoals(0), m_totalCards(0) {}
 
 int Team::getTeamId() const
@@ -15,10 +15,7 @@ int Team::getPlayedTogether() const
 {
     return this->m_playedTogether;
 }
-Player* Team::getTopScorer() const
-{
-    return this->m_topScorer;
-}
+
 int Team::getTotalPlayers() const
 {
     return this->m_totalPlayers;
@@ -36,10 +33,7 @@ void Team::setPlayedTogether(int playedTogether)
 {
     this->m_playedTogether = playedTogether;
 }
-void Team::setTopScorer(Player* topScorer)
-{
-    this->m_topScorer=topScorer;
-}
+
 void Team::setTotalPlayers(int totalPlayers)
 {
     this->m_totalPlayers = totalPlayers;
@@ -59,11 +53,6 @@ bool Team::isEmptyTeam() const {
 
 void Team::insertPlayer(Player* player)
 {
-    if(player->getGoals()>m_topScorer->getGoals())
-    {
-        this->m_topScorer = player;
-    }
-
     m_teamPlayersByID.insert(player);
     m_teamPlayersByScore.insert(player);
     m_totalCards+=player->getCards();
