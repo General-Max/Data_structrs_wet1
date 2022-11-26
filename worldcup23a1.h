@@ -23,6 +23,9 @@
 #include "sortingTreeMethods.h"
 #include "SortTeamById.h"
 
+const int DRAW = 1;
+const int WIN = 3;
+
 class world_cup_t {
 private:
 	//
